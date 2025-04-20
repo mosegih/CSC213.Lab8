@@ -117,7 +117,10 @@ public class App {
 
     public static List<Review> filterByPriceRange(List<Review> reviews, double min, double max) {
         //TODO - you need to implement this using a functional approach!
-        return null;
+	//replaced
+        return reviews.stream()
+		.filter(r -> r.getPrice() >= min && r.getPrice() <= max)
+		.collect(Collectors.toList());
     }
 
     public static Map<String, Long> countByProductId(List<Review> reviews) {
@@ -151,7 +154,11 @@ public class App {
 
     public static List<String> getHomeProductIdsUnder100(List<Review> reviews) {
         //TODO - you need to implement this using a functional approach!
-        return new ArrayList<String>();                             // Final list of productIds
+        return reviews.stream()
+		.filter(r -> "Home".equalsIgnoreCase(r.getCategory()) && r.getPrice() < 100)
+		.sorted((r1, r2) -> Double.compare(r1.getPrice(), r2.getPrice())) // sort by price
+		.map(Review::getProductId)
+		.collect(Collectors.toList());                             // Final list of productIds
     }
 
     
